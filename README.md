@@ -1,2 +1,3 @@
 # ReadingDiary
-A mobile application for keeping a reading diary. in kotlin.mobile development subject (third course, seconde semester)
+A kotlin mobile application for keeping a reading diary.
+App for Mobile development subject (third course, seconde semester)
