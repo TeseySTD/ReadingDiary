@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Поле для введення назви книги -->
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Book Title"/>
+
+    <!-- Поле для введення автора -->
+    <EditText
+        android:id="@+id/editTextAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Author"/>
+
+    <!-- Поле для введення кількості сторінок -->
+    <EditText
+        android:id="@+id/editTextPages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Number of pages"
+        android:inputType="number"/>
+
+</LinearLayout>

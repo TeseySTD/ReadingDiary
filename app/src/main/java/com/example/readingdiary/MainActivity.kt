@@ -1,15 +1,14 @@
 package com.example.readingdiary
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.readingdiary.ui.AddBookDialog
 import com.example.readingdiary.ui.BooksFragment
 import com.example.readingdiary.ui.NotesFragment
 import com.example.readingdiary.ui.PlansFragment
@@ -26,7 +25,6 @@ class MainActivity : AppCompatActivity() {
 
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
-
         viewPager.adapter = ViewPagerAdapter(this)
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -47,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAddBookDialog() {
-        throw NotImplementedError()
+        AddBookDialog().show(supportFragmentManager, "AddBookDialog")
     }
 
     private fun showAddNoteDialog() {
