@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.readingdiary.ui.AddBookDialog
+import com.example.readingdiary.ui.AddNoteDialog
 import com.example.readingdiary.ui.BooksFragment
 import com.example.readingdiary.ui.NotesFragment
 import com.example.readingdiary.ui.PlansFragment
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAddNoteDialog() {
-        throw NotImplementedError()
+        AddNoteDialog().show(supportFragmentManager, "AddNoteDialog")
     }
 
     private fun showAddPlanDialog() {
