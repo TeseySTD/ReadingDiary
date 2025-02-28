@@ -24,11 +24,13 @@ class Book(
 
     fun getRatingValue(): Int = rating?.ordinal?.plus(1) ?: 0
 
-    fun MutableList<Book>.toShortBookList() : MutableList<String> {
-        var result = mutableListOf<String>();
-        for(b in this){
-            result.add(b.title)
+    companion object{
+        fun MutableList<Book>.toShortBookList() : MutableList<String> {
+            var result = mutableListOf<String>();
+            for(b in this){
+                result.add(b.title)
+            }
+            return result
         }
-        return result
     }
 }

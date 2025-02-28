@@ -1,19 +1,30 @@
 package com.example.readingdiary.repo
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.readingdiary.enums.ReadingStatus
 import com.example.readingdiary.models.ReadingPlan
 
 class ReadingPlanRepository private constructor() {
 
     private val readingPlans = mutableListOf<ReadingPlan>()
+    private val readingPlansLiveData = MutableLiveData<List<ReadingPlan>>(readingPlans)
 
     fun addReadingPlan(readingPlan: ReadingPlan) {
         readingPlans.add(readingPlan)
+        readingPlansLiveData.value = readingPlans
     }
 
-    fun getReadingPlans(): List<ReadingPlan> = readingPlans
+    fun getReadingPlansLiveData(): LiveData<List<ReadingPlan>> = readingPlansLiveData
 
-    fun removeReadingPlan(readingPlan: ReadingPlan) {
+    fun completeReadingPlan(readingPlan: ReadingPlan) {
+        val bookRepo = BookRepository.getInstance()
+        readingPlan.getBooks().forEach{
+            bookRepo.changeBookStatus(it,ReadingStatus.COMPLETED)
+        }
+
         readingPlans.remove(readingPlan)
+        readingPlansLiveData.value = readingPlans
     }
 
     companion object {

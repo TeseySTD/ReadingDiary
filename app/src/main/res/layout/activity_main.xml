@@ -17,7 +17,7 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My books" />
+            android:text="Read books" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"

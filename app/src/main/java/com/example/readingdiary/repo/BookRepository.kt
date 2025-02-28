@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.readingdiary.enums.BookRating
+import com.example.readingdiary.enums.ReadingStatus
 import com.example.readingdiary.models.Book
 
 class BookRepository private constructor() {
@@ -25,6 +26,18 @@ class BookRepository private constructor() {
             return
         }
         books.remove(book)
+        booksLiveData.value = books.toList()
+    }
+
+    fun changeBookStatus(book: Book, status: ReadingStatus){
+        val index = books.indexOf(book)
+        book.status = status
+        if(index == -1)
+        {
+            Log.println(Log.WARN, "Book repository error","Book not found in repository")
+            return
+        }
+        books[index] = book
         booksLiveData.value = books.toList()
     }
 

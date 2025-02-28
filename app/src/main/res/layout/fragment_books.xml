@@ -15,4 +15,14 @@
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp" />
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/makeReadingPlanButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make reaading plan"
+        android:visibility="gone"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

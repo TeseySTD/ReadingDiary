@@ -19,27 +19,41 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            tools:text="Book Title"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Book Title" />
 
         <TextView
             android:id="@+id/bookAuthor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="155dp"
+            android:layout_height="29dp"
             android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="@id/bookRating"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bookTitle"
             tools:text="Author Name" />
 
         <TextView
+            android:id="@+id/bookStatus"
+            android:layout_width="159dp"
+            android:layout_height="21dp"
+            android:layout_marginTop="52dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/bookRating"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bookTitle"
+            tools:text="Status" />
+
+        <TextView
             android:id="@+id/bookPages"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="40dp"
             app:layout_constraintEnd_toEndOf="@id/bookRating"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bookAuthor"
             tools:text="300 pages" />
@@ -49,22 +63,31 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:isIndicator="false"
             android:numStars="5"
             android:stepSize="0.5"
-            app:layout_constraintTop_toBottomOf="@id/bookPages"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bookPages" />
+
+        <CheckBox
+            android:id="@+id/bookCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="-65dp"
+            android:layout_marginBottom="56dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/deleteBookButton"
+            app:layout_constraintEnd_toStartOf="@id/deleteBookButton" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/deleteBookButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:src="@android:drawable/ic_input_delete"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="8dp" />
-
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

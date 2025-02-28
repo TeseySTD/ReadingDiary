@@ -13,12 +13,14 @@ import com.example.readingdiary.ui.AddNoteDialog
 import com.example.readingdiary.ui.BooksFragment
 import com.example.readingdiary.ui.NotesFragment
 import com.example.readingdiary.ui.PlansFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
+    private lateinit var fabAdd: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +28,12 @@ class MainActivity : AppCompatActivity() {
 
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
+        fabAdd = findViewById(R.id.fabAdd)
         viewPager.adapter = ViewPagerAdapter(this)
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "My books"
+                0 -> "Read books"
                 1 -> "Notes"
                 else -> "Plans of future reading"
             }
@@ -40,9 +43,14 @@ class MainActivity : AppCompatActivity() {
             when (viewPager.currentItem) {
                 0 -> showAddBookDialog()
                 1 -> showAddNoteDialog()
-                2 -> showAddPlanDialog()
             }
         }
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                fabAdd.visibility = if (position == 2) View.GONE else View.VISIBLE
+            }
+        })
     }
 
     private fun showAddBookDialog() {
@@ -53,9 +61,6 @@ class MainActivity : AppCompatActivity() {
         AddNoteDialog().show(supportFragmentManager, "AddNoteDialog")
     }
 
-    private fun showAddPlanDialog() {
-        throw NotImplementedError()
-    }
 }
 
 class ViewPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
