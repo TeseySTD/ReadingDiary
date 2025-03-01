@@ -48,7 +48,7 @@ fun ComposeBookItem(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-            colors = CardDefaults.cardColors(containerColor = colors.onSurface)
+            colors = CardDefaults.cardColors(containerColor = colors.surfaceContainer)
         ) {
             Column(
                 modifier = Modifier
@@ -63,7 +63,7 @@ fun ComposeBookItem(
                     Text(
                         text = book.title,
                         fontSize = 18.sp,
-                        color = colors.surface,
+                        color = colors.onSurface,
                         modifier = Modifier.weight(1f)
                     )
 
@@ -86,7 +86,7 @@ fun ComposeBookItem(
                 Text(
                     text = "Author: ${book.author}",
                     fontSize = 14.sp,
-                    color = colors.surface,
+                    color = colors.onSurface,
                     modifier = Modifier.padding(top = 4.dp)
                 )
 
@@ -119,7 +119,7 @@ fun ComposeBookItem(
                 Text(
                     text = "${book.pages} pages",
                     fontSize = 14.sp,
-                    color = colors.surface,
+                    color = colors.onSurface,
                     modifier = Modifier.padding(top = 8.dp)
                 )
 

@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.compose.AppTheme
 import com.example.readingdiary.models.ReadingPlan
 
 @Composable
@@ -30,106 +31,108 @@ fun ComposePlanItem(
     plan: ReadingPlan,
     onCompletePlan: (ReadingPlan) -> Unit
 ) {
-    val colors = MaterialTheme.colorScheme
+    AppTheme {
+        val colors = MaterialTheme.colorScheme
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = colors.onSurface
-        )
-    ) {
-        Column(
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = plan.title,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = colors.surface
+                .padding(8.dp),
+            shape = RoundedCornerShape(12.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = colors.surfaceContainer
             )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Box(
+        ) {
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .border(
-                        width = 1.dp,
-                        color = colors.surface,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .background(
-                        color = colors.onSurface,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(12.dp)
+                    .padding(16.dp)
             ) {
-                Column {
-                    Text(
-                        text = "List of books:",
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 16.sp,
-                        color = colors.surface
-                    )
+                Text(
+                    text = plan.title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colors.onSurface
+                )
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-                    plan.getFormatedBooks().forEachIndexed { index, bookText ->
-                        Text(
-                            text = "${index + 1}. $bookText",
-                            fontSize = 14.sp,
-                            color = colors.surface,
-                            modifier = Modifier.padding(start = 8.dp, top = 4.dp)
-                        )
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
                 Box(
                     modifier = Modifier
-                        .background(
-                            color = colors.onSurface,
-                            shape = RoundedCornerShape(16.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 1.dp,
+                            color = colors.surfaceContainer,
+                            shape = RoundedCornerShape(8.dp)
                         )
-                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                        .background(
+                            color = colors.secondaryContainer,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(12.dp)
                 ) {
-                    Text(
-                        text = "Reading time: ${plan.calculateReadingTime}",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = colors.surface
-                    )
+                    Column {
+                        Text(
+                            text = "List of books:",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp,
+                            color = colors.onSurface
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        plan.getFormatedBooks().forEachIndexed { index, bookText ->
+                            Text(
+                                text = "${index + 1}. $bookText",
+                                fontSize = 14.sp,
+                                color = colors.onSurface,
+                                modifier = Modifier.padding(start = 8.dp, top = 4.dp)
+                            )
+                        }
+                    }
                 }
 
-                Button(
-                    onClick = { onCompletePlan(plan) },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colors.primary
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                    elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = 2.dp,
-                        pressedElevation = 8.dp
-                    )
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "Complete",
-                        color = colors.onError,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = colors.surfaceContainer,
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                    ) {
+                        Text(
+                            text = "Reading time: ${plan.calculateReadingTime}",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = colors.onSurface
+                        )
+                    }
+
+                    Button(
+                        onClick = { onCompletePlan(plan) },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colors.primary
+                        ),
+                        shape = RoundedCornerShape(8.dp),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 2.dp,
+                            pressedElevation = 8.dp
+                        )
+                    ) {
+                        Text(
+                            text = "Complete",
+                            color = colors.onError,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }

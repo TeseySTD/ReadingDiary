@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.compose.AppTheme
 import com.example.readingdiary.R
 import com.example.readingdiary.enums.BookRating
 import com.example.readingdiary.enums.ReadingStatus
@@ -103,21 +104,23 @@ class BookAdapter(
     override fun onBindViewHolder(holder: ComposeBookViewHolder, position: Int) {
         val book = books[position]
         holder.composeView.setContent {
-            ComposeBookItem(
-                book = book,
-                onDeleteClick = onDeleteClick,
-                onRatingChanged = { b, rating ->
-                    onRatingChanged(b, rating)
-                },
-                onCheckboxChanged = { b, isChecked ->
-                    if (isChecked) {
-                        selectedBooks.add(b)
-                    } else {
-                        selectedBooks.remove(b)
-                    }
-                    onCheckboxChanged(selectedBooks.size)
-                },
-            )
+            AppTheme {
+                ComposeBookItem(
+                    book = book,
+                    onDeleteClick = onDeleteClick,
+                    onRatingChanged = { b, rating ->
+                        onRatingChanged(b, rating)
+                    },
+                    onCheckboxChanged = { b, isChecked ->
+                        if (isChecked) {
+                            selectedBooks.add(b)
+                        } else {
+                            selectedBooks.remove(b)
+                        }
+                        onCheckboxChanged(selectedBooks.size)
+                    },
+                )
+            }
         }
     }
     override fun getItemCount() = books.size
