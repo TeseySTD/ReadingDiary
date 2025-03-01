@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.readingdiary.R
 import com.example.readingdiary.models.Note
 import com.example.readingdiary.repo.NoteRepository
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.readingdiary.ui.compose.ComposeNoteItem
 
 class NotesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -50,27 +50,27 @@ class NotesFragment : Fragment() {
 class NoteAdapter(
     private var notes: List<Note>,
     private val onDeleteClick: (Note) -> Unit,
-) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+) : RecyclerView.Adapter<NoteAdapter.ComposeNoteViewHolder>() {
 
-    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleText: TextView = itemView.findViewById(R.id.noteTitle)
-        val contentText: TextView = itemView.findViewById(R.id.noteContent)
-        val deleteButton: FloatingActionButton = itemView.findViewById(R.id.deleteNoteButton)
+    inner class ComposeNoteViewHolder(val composeView: ComposeView) : RecyclerView.ViewHolder(composeView)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeNoteViewHolder {
+        val composeView = ComposeView(parent.context).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+        return ComposeNoteViewHolder(composeView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_note, parent, false)
-        return NoteViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ComposeNoteViewHolder, position: Int) {
         val note = notes[position]
-        holder.titleText.text = note.title
-        holder.contentText.text = note.content
-
-        holder.deleteButton.setOnClickListener {
-            onDeleteClick(note)
+        holder.composeView.setContent {
+            ComposeNoteItem (
+                note = note,
+                onDeleteClick = onDeleteClick,
+            )
         }
     }
 

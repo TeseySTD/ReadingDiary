@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.readingdiary.R
 import com.example.readingdiary.models.ReadingPlan
 import com.example.readingdiary.repo.ReadingPlanRepository
+import com.example.readingdiary.ui.compose.ComposePlanItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PlansFragment : Fragment() {
@@ -51,30 +53,27 @@ class PlansFragment : Fragment() {
 class PlansAdapter(
     private var plans: List<ReadingPlan>,
     private val onCompletePlan: (ReadingPlan) -> Unit
-): RecyclerView.Adapter<PlansAdapter.PlansViewHolder>(){
+): RecyclerView.Adapter<PlansAdapter.ComposePlansViewHolder>(){
 
-    class PlansViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleText: TextView = itemView.findViewById(R.id.planTitle)
-        val planBooks: TextView = itemView.findViewById(R.id.planBooks)
-        val readingTime: TextView = itemView.findViewById(R.id.readingTime)
-        val completeButton: FloatingActionButton = itemView.findViewById(R.id.completePlanButton)
+    inner class ComposePlansViewHolder(val composeView: ComposeView) : RecyclerView.ViewHolder(composeView)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposePlansViewHolder {
+        val composeView = ComposeView(parent.context).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+        return ComposePlansViewHolder(composeView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlansViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_plan, parent, false)
-        return PlansViewHolder(view)
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: PlansViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ComposePlansViewHolder, position: Int) {
         val plan = plans[position]
-        holder.titleText.text = plan.title
-        holder.planBooks.text = "List of books:\n ${plan.getFormatedBooks().joinToString (separator = "\n")}"
-        holder.readingTime.text = "Reading time: ${plan.calculateReadingTime}"
-
-        holder.completeButton.setOnClickListener {
-            onCompletePlan(plan)
+        holder.composeView.setContent {
+            ComposePlanItem(
+                plan = plan,
+                onCompletePlan = onCompletePlan
+            )
         }
     }
 

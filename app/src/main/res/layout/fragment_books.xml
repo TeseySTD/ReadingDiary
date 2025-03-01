@@ -19,7 +19,7 @@
         android:id="@+id/makeReadingPlanButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Make reaading plan"
+        android:text="Make reading plan"
         android:visibility="gone"
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"

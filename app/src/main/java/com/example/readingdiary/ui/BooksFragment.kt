@@ -9,6 +9,7 @@ import android.widget.CheckBox
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.example.readingdiary.models.Book
 import com.example.readingdiary.models.ReadingPlan
 import com.example.readingdiary.repo.BookRepository
 import com.example.readingdiary.repo.ReadingPlanRepository
+import com.example.readingdiary.ui.compose.ComposeBookItem
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlin.math.roundToInt
@@ -81,59 +83,43 @@ class BookAdapter(
     private var books: List<Book>,
     private val onDeleteClick: (Book) -> Unit,
     private val onRatingChanged: (Book, BookRating) -> Unit,
-    private val onCheckboxChanged: (selectedCount: Int) -> Unit
-) : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
+    private val onCheckboxChanged: (selectedCount: Int) -> Unit)
+    : RecyclerView.Adapter<BookAdapter.ComposeBookViewHolder>() {
 
     private val selectedBooks = mutableSetOf<Book>()
 
-    class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleText: TextView = itemView.findViewById(R.id.bookTitle)
-        val authorText: TextView = itemView.findViewById(R.id.bookAuthor)
-        val bookStatus: TextView = itemView.findViewById(R.id.bookStatus)
-        val pagesText: TextView = itemView.findViewById(R.id.bookPages)
-        val ratingBar: RatingBar = itemView.findViewById(R.id.bookRating)
-        val checkBox: CheckBox = itemView.findViewById(R.id.bookCheckBox)
-        val deleteButton: FloatingActionButton = itemView.findViewById(R.id.deleteBookButton)
+    inner class ComposeBookViewHolder(val composeView: ComposeView) : RecyclerView.ViewHolder(composeView)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeBookViewHolder {
+        val composeView = ComposeView(parent.context).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+        return ComposeBookViewHolder(composeView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_book, parent, false)
-        return BookViewHolder(view)
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ComposeBookViewHolder, position: Int) {
         val book = books[position]
-        holder.titleText.text = book.title
-        holder.authorText.text = "Author: ${book.author}"
-        holder.bookStatus.text = "Status: ${book.status.name }"
-        holder.pagesText.text = "${book.pages} pages"
-        holder.ratingBar.rating = book.getRatingValue().toFloat()
-
-        holder.checkBox.visibility = if (book.status == ReadingStatus.NOT_STARTED) View.VISIBLE else View.GONE
-
-        holder.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
-            val bookRating = BookRating.fromInt(rating.roundToInt() - 1)
-            onRatingChanged(book, bookRating)
-        }
-
-        holder.deleteButton.setOnClickListener {
-            onDeleteClick(book)
-        }
-
-        holder.checkBox.setOnCheckedChangeListener(null)
-        holder.checkBox.isChecked = selectedBooks.contains(book)
-        holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                selectedBooks.add(book)
-            } else {
-                selectedBooks.remove(book)
-            }
-            onCheckboxChanged(selectedBooks.size)
+        holder.composeView.setContent {
+            ComposeBookItem(
+                book = book,
+                onDeleteClick = onDeleteClick,
+                onRatingChanged = { b, rating ->
+                    onRatingChanged(b, rating)
+                },
+                onCheckboxChanged = { b, isChecked ->
+                    if (isChecked) {
+                        selectedBooks.add(b)
+                    } else {
+                        selectedBooks.remove(b)
+                    }
+                    onCheckboxChanged(selectedBooks.size)
+                },
+            )
         }
     }
-
     override fun getItemCount() = books.size
 
     fun updateBooks(newBooks: List<Book>) {
@@ -141,9 +127,7 @@ class BookAdapter(
         notifyDataSetChanged()
     }
 
-    fun getSelectedBooks(): List<Book> {
-        return selectedBooks.toList()
-    }
+    fun getSelectedBooks(): List<Book> = selectedBooks.toList()
 
     fun clearSelection() {
         val repository = BookRepository.getInstance()
