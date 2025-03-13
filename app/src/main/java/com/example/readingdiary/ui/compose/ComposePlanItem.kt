@@ -1,15 +1,14 @@
 package com.example.readingdiary.ui.compose
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -18,9 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.AppTheme
@@ -52,66 +49,57 @@ fun ComposePlanItem(
                 Text(
                     text = plan.title,
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
                     color = colors.onSurface
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(
-                            width = 1.dp,
-                            color = colors.surfaceContainer,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .background(
-                            color = colors.secondaryContainer,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .padding(12.dp)
+                Text(
+                    text = "Tile of books:",
+                    fontSize = 16.sp,
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
+                    color = colors.onSurface
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column {
-                        Text(
-                            text = "List of books:",
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 16.sp,
-                            color = colors.onSurface
-                        )
-
-                        Spacer(modifier = Modifier.height(4.dp))
-
-                        plan.getFormatedBooks().forEachIndexed { index, bookText ->
-                            Text(
-                                text = "${index + 1}. $bookText",
-                                fontSize = 14.sp,
-                                color = colors.onSurface,
-                                modifier = Modifier.padding(start = 8.dp, top = 4.dp)
+                    items(plan.getFormatedBooks()) { bookText ->
+                        Card(
+                            shape = RoundedCornerShape(8.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = colors.secondaryContainer
                             )
+                        ) {
+                            Box(modifier = Modifier.padding(8.dp)) {
+                                Text(
+                                    text = bookText,
+                                    fontSize = 14.sp,
+                                    color = colors.onSurface
+                                )
+                            }
                         }
                     }
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                Column(
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Box(
                         modifier = Modifier
-                            .background(
-                                color = colors.surfaceContainer,
-                                shape = RoundedCornerShape(16.dp)
-                            )
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                            .padding(bottom = 8.dp)
                     ) {
                         Text(
                             text = "Reading time: ${plan.calculateReadingTime}",
                             fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium,
+                            fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
                             color = colors.onSurface
                         )
                     }
@@ -130,7 +118,7 @@ fun ComposePlanItem(
                         Text(
                             text = "Complete",
                             color = colors.onError,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
                         )
                     }
                 }

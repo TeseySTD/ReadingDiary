@@ -127,7 +127,7 @@ fun ComposeBookItem(
                     factory = { context ->
                         RatingBar(context).apply {
                             numStars = 5
-                            stepSize = 0.5f
+                            stepSize = 1f
                             rating = book.getRatingValue().toFloat()
                             setOnRatingBarChangeListener { _, rating, _ ->
                                 val bookRating = BookRating.fromInt(rating.toInt() - 1)
