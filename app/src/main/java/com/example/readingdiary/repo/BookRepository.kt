@@ -6,51 +6,50 @@ import androidx.lifecycle.MutableLiveData
 import com.example.readingdiary.enums.BookRating
 import com.example.readingdiary.enums.ReadingStatus
 import com.example.readingdiary.models.Book
+import java.util.UUID
 
 class BookRepository private constructor() {
 
-    private val books = mutableListOf<Book>()
-    private val booksLiveData = MutableLiveData<List<Book>>(books)
+    private val books = mutableMapOf<UUID,Book>()
+    private val booksLiveData = MutableLiveData<List<Book>>(books.values.toList())
 
     fun addBook(book: Book) {
-        books.add(book)
-        booksLiveData.value = books.toList()
+        books.set(book.Id, book)
+        booksLiveData.value = books.values.toList()
     }
 
     fun getBooksLiveData(): LiveData<List<Book>> = booksLiveData
 
     fun removeBook(book: Book) {
-        if(books.indexOf(book) == -1)
+        if(!books.containsKey(book.Id))
         {
-            Log.println(Log.WARN, "Book repository error","Book not found in repository")
+            Log.println(Log.WARN, "Book repository error","Book with id: ${book.Id} not found in repository")
             return
         }
-        books.remove(book)
-        booksLiveData.value = books.toList()
+        books.remove(book.Id)
+        booksLiveData.value = books.values.toList()
     }
 
     fun changeBookStatus(book: Book, status: ReadingStatus){
-        val index = books.indexOf(book)
         book.status = status
-        if(index == -1)
+        if(!books.containsKey(book.Id))
         {
             Log.println(Log.WARN, "Book repository error","Book not found in repository")
             return
         }
-        books[index] = book
-        booksLiveData.value = books.toList()
+        books[book.Id] = book
+        booksLiveData.value = books.values.toList()
     }
 
     fun changeBookRating(book: Book, rating: BookRating){
-        val index = books.indexOf(book)
         book.rating = rating
-        if(index == -1)
+        if(!books.containsKey(book.Id))
         {
             Log.println(Log.WARN, "Book repository error","Book not found in repository")
             return
         }
-        books[index] = book
-        booksLiveData.value = books.toList()
+        books[book.Id] = book
+        booksLiveData.value = books.values.toList()
     }
 
     companion object {

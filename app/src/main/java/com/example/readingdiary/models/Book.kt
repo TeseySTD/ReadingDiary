@@ -3,6 +3,7 @@ package com.example.readingdiary.models
 import com.example.readingdiary.enums.BookRating
 import com.example.readingdiary.enums.ReadingStatus
 import java.util.Date
+import java.util.UUID
 
 class Book(
     title: String,
@@ -10,7 +11,8 @@ class Book(
     var pages: Int,
     date: Date = Date(),
     var status: ReadingStatus = ReadingStatus.NOT_STARTED,
-    var rating: BookRating? = null
+    var rating: BookRating? = null,
+    val Id : UUID = UUID.randomUUID()
 ) : DiaryEntry(title, date) {
 
     constructor(title: String, author: String) : this(title, author, 0)

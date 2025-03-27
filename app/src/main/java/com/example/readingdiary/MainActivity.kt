@@ -1,7 +1,6 @@
 package com.example.readingdiary
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -13,6 +12,9 @@ import com.example.readingdiary.ui.AddNoteDialog
 import com.example.readingdiary.ui.BooksFragment
 import com.example.readingdiary.ui.NotesFragment
 import com.example.readingdiary.ui.PlansFragment
+import com.example.readingdiary.ui.compose.LoginFragment
+import com.example.readingdiary.ui.compose.RegistrationFragment
+import com.example.readingdiary.ui.compose.HomeFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -33,9 +35,13 @@ class MainActivity : AppCompatActivity() {
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Read books"
-                1 -> "Notes"
-                else -> "Plans of future reading"
+                0 -> "Home"
+                1 -> "Read books"
+                2 -> "Notes"
+                3 -> "Plans"
+                4 -> "Login"
+                5 -> "Register"
+                else -> ""
             }
         }.attach()
 
@@ -48,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                fabAdd.visibility = if (position == 2) View.GONE else View.VISIBLE
+                fabAdd.visibility = if (position in 3..5) View.GONE else View.VISIBLE
             }
         })
     }
@@ -60,17 +66,20 @@ class MainActivity : AppCompatActivity() {
     private fun showAddNoteDialog() {
         AddNoteDialog().show(supportFragmentManager, "AddNoteDialog")
     }
-
 }
 
 class ViewPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
-    override fun getItemCount(): Int = 3
+    override fun getItemCount(): Int = 6
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> BooksFragment()
-            1 -> NotesFragment()
-            else -> PlansFragment()
+            0 -> HomeFragment()
+            1 -> BooksFragment()
+            2 -> NotesFragment()
+            3 -> PlansFragment()
+            4 -> LoginFragment()
+            5 -> RegistrationFragment()
+            else -> HomeFragment()
         }
     }
 }

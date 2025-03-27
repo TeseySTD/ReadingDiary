@@ -8,13 +8,13 @@ import com.example.readingdiary.models.Note
 
 class NoteRepository private constructor() {
 
-    private val notes = mutableListOf<Note>()
-    private val notesLiveData = MutableLiveData<List<Note>>(notes)
+    private var notes = arrayOf<Note>()
+    private val notesLiveData = MutableLiveData<List<Note>>(notes.toList())
 
 
     fun addNote(note: Note) {
-        notes.add(note)
-        notesLiveData.value = notes
+        notes = notes.plus(note)
+        notesLiveData.value = notes.toList()
     }
 
     fun getNotesLiveData(): LiveData<List<Note>> = notesLiveData
@@ -25,7 +25,7 @@ class NoteRepository private constructor() {
             Log.println(Log.WARN, "Note repository error","Note not found in repository")
             return
         }
-        notes.remove(note)
+        notes = notes.filterNot { it == note }.toTypedArray()
         notesLiveData.value = notes.toList()
     }
 
