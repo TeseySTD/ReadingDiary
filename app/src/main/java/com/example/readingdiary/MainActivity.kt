@@ -35,26 +35,28 @@ class MainActivity : AppCompatActivity() {
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Home"
-                1 -> "Read books"
-                2 -> "Notes"
-                3 -> "Plans"
-                4 -> "Login"
-                5 -> "Register"
+                FragmentPositions.HomeFragment.ordinal -> "Home"
+                FragmentPositions.BooksFragment.ordinal -> "Read books"
+                FragmentPositions.NotesFragment.ordinal -> "Notes"
+                FragmentPositions.PlansFragment.ordinal -> "Plans"
+                FragmentPositions.LoginFragment.ordinal -> "Login"
+                FragmentPositions.RegistrationFragment.ordinal -> "Register"
                 else -> ""
             }
         }.attach()
 
         findViewById<View>(R.id.fabAdd).setOnClickListener {
             when (viewPager.currentItem) {
-                0 -> showAddBookDialog()
-                1 -> showAddNoteDialog()
+                FragmentPositions.BooksFragment.ordinal -> showAddBookDialog()
+                FragmentPositions.NotesFragment.ordinal -> showAddNoteDialog()
             }
         }
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                fabAdd.visibility = if (position in 3..5) View.GONE else View.VISIBLE
+                fabAdd.visibility = if (position in
+                    FragmentPositions.BooksFragment.ordinal .. FragmentPositions.NotesFragment.ordinal)
+                    View.VISIBLE else View.GONE
             }
         })
     }
@@ -68,17 +70,26 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+enum class FragmentPositions{
+    HomeFragment,
+    BooksFragment,
+    NotesFragment,
+    PlansFragment,
+    LoginFragment,
+    RegistrationFragment,
+}
+
 class ViewPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int = 6
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> HomeFragment()
-            1 -> BooksFragment()
-            2 -> NotesFragment()
-            3 -> PlansFragment()
-            4 -> LoginFragment()
-            5 -> RegistrationFragment()
+            FragmentPositions.HomeFragment.ordinal -> HomeFragment()
+            FragmentPositions.BooksFragment.ordinal -> BooksFragment()
+            FragmentPositions.NotesFragment.ordinal -> NotesFragment()
+            FragmentPositions.PlansFragment.ordinal -> PlansFragment()
+            FragmentPositions.LoginFragment.ordinal -> LoginFragment()
+            FragmentPositions.RegistrationFragment.ordinal -> RegistrationFragment()
             else -> HomeFragment()
         }
     }
