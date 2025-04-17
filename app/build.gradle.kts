@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-
+    val activity_version = "1.10.1"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -56,7 +56,10 @@ dependencies {
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview.android)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation ("androidx.activity:activity-compose:$activity_version")
 }

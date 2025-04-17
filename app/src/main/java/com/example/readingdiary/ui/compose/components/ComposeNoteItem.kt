@@ -1,4 +1,4 @@
-package com.example.readingdiary.ui.compose
+package com.example.readingdiary.ui.compose.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
