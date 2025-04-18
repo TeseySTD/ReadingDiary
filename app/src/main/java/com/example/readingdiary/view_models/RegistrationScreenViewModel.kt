@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.readingdiary.models.User
+import com.example.readingdiary.services.UserService
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -12,39 +14,32 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class RegistrationScreenViewModel : ViewModel() {
-    // Registration form state
     private val _registrationState = MutableLiveData(RegistrationFormState())
     val registrationState: LiveData<RegistrationFormState> = _registrationState
 
-    // UI events for navigation or showing messages
     private val _uiEvent = MutableSharedFlow<RegistrationUiEvent>()
     val uiEvent: SharedFlow<RegistrationUiEvent> = _uiEvent
 
-    // Update login field
     fun updateLogin(login: String) {
         _registrationState.value = _registrationState.value?.copy(login = login)
         validateForm()
     }
 
-    // Update password field
     fun updatePassword(password: String) {
         _registrationState.value = _registrationState.value?.copy(password = password)
         validateForm()
     }
 
-    // Update birth date field
     fun updateBirthDate(birthDate: String) {
         _registrationState.value = _registrationState.value?.copy(birthDate = birthDate)
         validateForm()
     }
 
-    // Update policy acceptance
     fun updatePolicyAcceptance(accepted: Boolean) {
         _registrationState.value = _registrationState.value?.copy(policyAccepted = accepted)
         validateForm()
     }
 
-    // Validate the form and update form validity state
     private fun validateForm() {
         val currentState = _registrationState.value ?: return
 
@@ -60,7 +55,6 @@ class RegistrationScreenViewModel : ViewModel() {
         _registrationState.value = currentState.copy(isFormValid = isFormValid)
     }
 
-    // Validate date format (YYYY-MM-DD)
     private fun isValidDateFormat(date: String): Boolean {
         if (date.isBlank()) return false
 
@@ -74,12 +68,13 @@ class RegistrationScreenViewModel : ViewModel() {
         }
     }
 
-    // Perform registration
     fun register() {
         val currentState = _registrationState.value ?: return
         if (!currentState.isFormValid) {
             return
         }
+
+        UserService.registerUser(User(currentState.login, currentState.password))
 
         Log.d("RegistrationScreenViewModel",
             "Login: ${currentState.login}, " +

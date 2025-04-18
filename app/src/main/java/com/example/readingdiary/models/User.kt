@@ -1,5 +1,5 @@
 package com.example.readingdiary.models
 
-class User(name:String, password:String) {
+class User(val name:String, val password:String) {
 
 }
