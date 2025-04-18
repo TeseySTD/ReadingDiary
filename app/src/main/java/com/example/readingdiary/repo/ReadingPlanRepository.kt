@@ -12,7 +12,7 @@ class ReadingPlanRepository private constructor() {
 
     fun addReadingPlan(readingPlan: ReadingPlan) {
         readingPlans.add(readingPlan)
-        readingPlansLiveData.value = readingPlans
+        readingPlansLiveData.value = readingPlans.toList()
     }
 
     fun getReadingPlansLiveData(): LiveData<List<ReadingPlan>> = readingPlansLiveData
@@ -24,7 +24,7 @@ class ReadingPlanRepository private constructor() {
         }
 
         readingPlans.remove(readingPlan)
-        readingPlansLiveData.value = readingPlans
+        readingPlansLiveData.value = readingPlans.toList()
     }
 
     companion object {
@@ -37,4 +37,5 @@ class ReadingPlanRepository private constructor() {
             return instance!!
         }
     }
+
 }

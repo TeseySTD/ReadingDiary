@@ -1,4 +1,4 @@
-package com.example.readingdiary.ui.compose
+package com.example.readingdiary.ui.compose.screens
 import android.app.Activity
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable

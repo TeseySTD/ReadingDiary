@@ -1,7 +1,5 @@
 package com.example.readingdiary.ui.compose.screens
 
-import com.example.readingdiary.ui.compose.components.ComposeNoteItem
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,14 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.readingdiary.models.Note
-import com.example.readingdiary.repo.NoteRepository
-
+import com.example.readingdiary.ui.compose.components.ComposeNoteItem
+import com.example.readingdiary.view_models.NotesScreenViewModel
 
 @Composable
-fun NotesScreen() {
-    val noteRepository = NoteRepository.getInstance()
-    val notes by noteRepository.getNotesLiveData().observeAsState(initial = emptyList())
+fun NotesScreen(
+    viewModel: NotesScreenViewModel = viewModel()
+) {
+    val notes by viewModel.notes.observeAsState(initial = emptyList())
 
     Scaffold { paddingValues ->
         Box(
@@ -30,7 +30,7 @@ fun NotesScreen() {
             NotesList(
                 notes = notes,
                 onDeleteClick = { note ->
-                    noteRepository.removeNote(note)
+                    viewModel.deleteNote(note)
                 }
             )
         }

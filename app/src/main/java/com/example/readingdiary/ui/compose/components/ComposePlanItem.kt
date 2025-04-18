@@ -3,6 +3,7 @@ package com.example.readingdiary.ui.compose.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -64,11 +65,11 @@ fun ComposePlanItem(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                LazyRow(
+                Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(plan.getFormatedBooks()) { bookText ->
+                    plan.getFormatedBooks().forEach() { bookText ->
                         Card(
                             shape = RoundedCornerShape(8.dp),
                             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),

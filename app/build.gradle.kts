@@ -47,6 +47,8 @@ android {
 
 dependencies {
     val activity_version = "1.10.1"
+    val nav_version = "2.8.9"
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -62,4 +64,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation ("androidx.activity:activity-compose:$activity_version")
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 }

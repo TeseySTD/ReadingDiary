@@ -3,131 +3,151 @@ package com.example.readingdiary
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.compose.AppTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import com.example.readingdiary.ui.compose.HomeScreen
-import com.example.readingdiary.ui.compose.LoginScreen
-import com.example.readingdiary.ui.compose.RegistrationScreen
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.compose.AppTheme
+import com.example.readingdiary.ui.compose.screens.HomeScreen
+import com.example.readingdiary.ui.compose.screens.LoginScreen
+import com.example.readingdiary.ui.compose.screens.RegistrationScreen
 import com.example.readingdiary.ui.compose.components.AddBookDialogCompose
 import com.example.readingdiary.ui.compose.components.AddNoteDialogCompose
 import com.example.readingdiary.ui.compose.screens.BooksScreen
 import com.example.readingdiary.ui.compose.screens.NotesScreen
 import com.example.readingdiary.ui.compose.screens.PlansScreen
 
+sealed class Routes(val route: String, val label: String, val icon: ImageVector) {
+    object Home : Routes("home", "Home", Icons.Filled.Home)
+    object Books : Routes("books", "Books", Icons.Filled.AccountBox)
+    object Notes : Routes("notes", "Notes", Icons.Filled.Edit)
+    object Plans : Routes("plans", "Plans", Icons.Filled.Star)
+    object Login : Routes("login", "Login", Icons.Filled.Star)
+    object Registration : Routes("registration", "Register", Icons.Filled.Star)
+}
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                MainScreen()
+                MainApp()
             }
         }
     }
 }
 
-enum class TabScreen {
-    Home,
-    Books,
-    Notes,
-    Plans,
-    Login,
-    Registration
-}
-
 @Composable
-fun MainScreen() {
-    var currentTab by remember { mutableIntStateOf(TabScreen.Home.ordinal) }
+fun MainApp() {
+    val navController = rememberNavController()
     var showAddBookDialog by remember { mutableStateOf(false) }
     var showAddNoteDialog by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = {
-            TabRow(selectedTabIndex = currentTab) {
-                TabScreen.values().forEachIndexed { index, tabScreen ->
-                    Tab(
-                        selected = currentTab == index,
-                        onClick = { currentTab = index },
-                        text = {
-                            Text(
-                                text = when (tabScreen) {
-                                    TabScreen.Home -> "Home"
-                                    TabScreen.Books -> "Books"
-                                    TabScreen.Notes -> "Notes"
-                                    TabScreen.Plans -> "Plans"
-                                    TabScreen.Login -> "Login"
-                                    TabScreen.Registration -> "Register"
-                                }
-                            )
-                        }
-                    )
-                }
-            }
-        },
+        bottomBar = { BottomNavBar(navController) },
         floatingActionButton = {
-            if (currentTab == TabScreen.Books.ordinal || currentTab == TabScreen.Notes.ordinal) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.BottomEnd
-                ){
-
-                    FloatingActionButton(
-                        onClick = {
-                            when (currentTab) {
-                                TabScreen.Books.ordinal -> showAddBookDialog = true
-                                TabScreen.Notes.ordinal -> showAddNoteDialog = true
-                            }
+            val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+            if (currentRoute == Routes.Books.route || currentRoute == Routes.Notes.route) {
+                FloatingActionButton(
+                    onClick = {
+                        when (currentRoute) {
+                            Routes.Books.route -> showAddBookDialog = true
+                            Routes.Notes.route -> showAddNoteDialog = true
                         }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = android.R.drawable.ic_input_add),
-                            contentDescription = "Add"
-                        )
                     }
+                ) {
+                    Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
                 }
             }
         }
     ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
         ) {
-            when (currentTab) {
-                TabScreen.Home.ordinal -> HomeScreen()
-                TabScreen.Books.ordinal -> BooksScreen()
-                TabScreen.Notes.ordinal -> NotesScreen()
-                TabScreen.Plans.ordinal -> PlansScreen()
-                TabScreen.Login.ordinal -> LoginScreen()
-                TabScreen.Registration.ordinal -> RegistrationScreen()
-            }
+            AppNavHost(
+                navController = navController,
+                showAddBookDialog = showAddBookDialog,
+                onDismissBook = { showAddBookDialog = false },
+                showAddNoteDialog = showAddNoteDialog,
+                onDismissNote = { showAddNoteDialog = false }
+            )
         }
+    }
+}
 
-        if (showAddBookDialog) {
-            AddBookDialogCompose(onDismiss = { showAddBookDialog = false })
-        }
+@Composable
+fun AppNavHost(
+    navController: NavHostController,
+    showAddBookDialog: Boolean,
+    onDismissBook: () -> Unit,
+    showAddNoteDialog: Boolean,
+    onDismissNote: () -> Unit
+) {
+    NavHost(navController = navController, startDestination = Routes.Home.route) {
+        composable(Routes.Home.route) { HomeScreen() }
+        composable(Routes.Books.route) { BooksScreen() }
+        composable(Routes.Notes.route) { NotesScreen() }
+        composable(Routes.Plans.route) { PlansScreen() }
+        composable(Routes.Login.route) { LoginScreen() }
+        composable(Routes.Registration.route) { RegistrationScreen() }
+    }
 
-        if (showAddNoteDialog) {
-            AddNoteDialogCompose(onDismiss = { showAddNoteDialog = false })
+    if (showAddBookDialog) {
+        AddBookDialogCompose(onDismiss = onDismissBook)
+    }
+    if (showAddNoteDialog) {
+        AddNoteDialogCompose(onDismiss = onDismissNote)
+    }
+}
+
+@Composable
+fun BottomNavBar(navController: NavHostController) {
+    val items = listOf(
+        Routes.Home,
+        Routes.Books,
+        Routes.Notes,
+        Routes.Plans,
+        Routes.Login,
+        Routes.Registration
+    )
+    NavigationBar {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        items.forEach { screen ->
+            NavigationBarItem(
+                icon = { Icon(screen.icon, contentDescription = screen.label) },
+                label = { Text(screen.label) },
+                selected = currentRoute == screen.route,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
         }
     }
 }

@@ -12,7 +12,6 @@ class Book(
     date: Date = Date(),
     var status: ReadingStatus = ReadingStatus.NOT_STARTED,
     var rating: BookRating? = null,
-    val Id : UUID = UUID.randomUUID()
 ) : DiaryEntry(title, date) {
 
     constructor(title: String, author: String) : this(title, author, 0)
