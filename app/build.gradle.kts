@@ -46,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.adaptive.android)
     val activity_version = "1.10.1"
     val nav_version = "2.8.9"
     val material_version = "1.7.8"
@@ -68,4 +69,5 @@ dependencies {
     implementation ("androidx.activity:activity-compose:$activity_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.compose.material:material:$material_version")
+    implementation("androidx.compose.material3:material3-window-size-class")
 }

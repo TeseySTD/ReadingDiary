@@ -23,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -147,6 +148,7 @@ fun NotAuthenticatedContent(
         Text(
             text = "You have to log in to view your profile",
             style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center
         )
 

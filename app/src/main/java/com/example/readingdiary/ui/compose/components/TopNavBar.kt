@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.readingdiary.extensions.NavHostControllerExtensions.Companion.canNavigateBack
-import com.example.readingdiary.extensions.NavHostControllerExtensions.Companion.getBackStackLength
 
 @Composable
 fun TopNavBar(navController: NavHostController) {
