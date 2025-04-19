@@ -16,11 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.readingdiary.extensions.NavHostControllerExtensions.Companion.canNavigateBack
+import com.example.readingdiary.extensions.NavHostControllerExtensions.Companion.getBackStackLength
 
 @Composable
 fun TopNavBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val canNavigateBack = true
 
     Box(
         modifier = Modifier
@@ -34,7 +35,7 @@ fun TopNavBar(navController: NavHostController) {
                 text = navBackStackEntry?.destination?.route.toString()
             )
         }
-        if (canNavigateBack) {
+        if (navController.canNavigateBack()) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
