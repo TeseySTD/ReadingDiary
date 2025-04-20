@@ -1,5 +1,6 @@
 [versions]
 agp = "8.8.1"
+espressoCoreVersion = "3.5.0"
 kotlin = "1.9.24"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -9,15 +10,21 @@ appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
+mockitoVersion = "3.12.4"
 runtimeAndroid = "1.7.8"
 foundationLayoutAndroid = "1.7.8"
 material3Android = "1.3.1"
 uiToolingPreviewAndroid = "1.7.8"
 runtimeLivedata = "1.7.8"
 adaptiveAndroid = "1.1.0"
+junitKtx = "1.2.1"
+uiTestAndroid = "1.7.8"
+uiTestJunit4Android = "1.7.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-espresso-core-v350 = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiToolingPreviewAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -31,6 +38,11 @@ androidx-material3-android = { group = "androidx.compose.material3", name = "mat
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroid" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-android", version.ref = "adaptiveAndroid" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+androidx-ui-test-android = { group = "androidx.compose.ui", name = "ui-test-android", version.ref = "uiTestAndroid" }
+androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoVersion" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockitoVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

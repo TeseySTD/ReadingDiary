@@ -13,6 +13,12 @@ class BookRepository private constructor() {
     private val books = mutableMapOf<UUID,Book>()
     private val booksLiveData = MutableLiveData(books.values.toList())
 
+    init {
+        val exampleBook = Book("Example", "Me")
+        books.set(exampleBook.id, exampleBook)
+        booksLiveData.value = books.values.toList()
+    }
+
     fun addBook(book: Book) {
         books.set(book.id, book)
         booksLiveData.value = books.values.toList()
@@ -61,5 +67,11 @@ class BookRepository private constructor() {
             }
             return instance!!
         }
+
+        fun reset() {
+            instance = null
+        }
     }
+
+
 }

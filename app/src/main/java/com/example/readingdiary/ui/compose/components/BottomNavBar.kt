@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -46,6 +48,7 @@ fun BottomNavBar(
             val currentRoute = navBackStackEntry?.destination?.route
             items.forEach { screen ->
                 NavigationBarItem(
+                    modifier = Modifier.semantics { contentDescription = screen.label },
                     icon = { Icon(screen.icon, contentDescription = screen.label) },
                     label = { Text(screen.label) },
                     selected = currentRoute == screen.route,
@@ -65,6 +68,7 @@ fun BottomNavBar(
                 ) {
                     items.forEach { screen ->
                         NavigationRailItem(
+                            modifier = Modifier.semantics { contentDescription = screen.label },
                             icon = { Icon(screen.icon, contentDescription = screen.label) },
                             label = { Text(screen.label) },
                             selected = currentRoute == screen.route,
@@ -89,6 +93,7 @@ fun BottomNavBar(
                             val currentRoute = navBackStackEntry?.destination?.route
                             items.forEach { screen ->
                                 NavigationDrawerItem(
+                                    modifier = Modifier.semantics { contentDescription = screen.label },
                                     icon = { Icon(screen.icon, contentDescription = screen.label) },
                                     label = { Text(screen.label) },
                                     selected = currentRoute == screen.route,

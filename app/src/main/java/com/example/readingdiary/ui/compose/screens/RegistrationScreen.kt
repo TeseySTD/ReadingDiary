@@ -1,5 +1,6 @@
 package com.example.readingdiary.ui.compose.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,7 +35,8 @@ fun RegistrationScreen(
 ) {
     val registrationState by viewModel.registrationState.observeAsState(RegistrationScreenViewModel.RegistrationFormState())
     val colors = MaterialTheme.colorScheme
-    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+
     LaunchedEffect(true) {
         viewModel.uiEvent.collectLatest { event ->
             when (event) {
@@ -41,7 +44,11 @@ fun RegistrationScreen(
                     onRegistrationSuccess()
                 }
                 is RegistrationScreenViewModel.RegistrationUiEvent.ShowError -> {
-                    snackbarHostState.showSnackbar(event.message)
+                    Toast.makeText(
+                        context,
+                        event.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

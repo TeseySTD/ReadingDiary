@@ -139,7 +139,6 @@ fun MainApp() {
             }
         }
         WindowWidthSizeClass.EXPANDED -> {
-            // Permanent drawer
             PermanentNavigationDrawer(
                 drawerContent = {
                     PermanentDrawerSheet {

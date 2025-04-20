@@ -25,6 +25,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -48,6 +51,9 @@ fun ComposeBookItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(4.dp)
+                .semantics {
+                    contentDescription = "Book item"
+                }
         ) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -74,6 +80,9 @@ fun ComposeBookItem(
 
                         if (book.status == ReadingStatus.NOT_STARTED) {
                             Checkbox(
+                                modifier = Modifier.semantics {
+                                    contentDescription = "Book selection"
+                                },
                                 checked = checked.value,
                                 onCheckedChange = { isChecked ->
                                     checked.value = isChecked
@@ -145,7 +154,11 @@ fun ComposeBookItem(
                                     onRatingChanged(book, bookRating)
                                 }
                             },
-                            modifier = Modifier.padding(top = 8.dp)
+                            modifier = Modifier
+                                .padding(top = 8.dp)
+                                .semantics{
+                                    contentDescription = "Book rating"
+                                }
                         )
                     }
 
@@ -156,6 +169,9 @@ fun ComposeBookItem(
                         horizontalArrangement = Arrangement.End
                     ) {
                         Button(
+                            modifier = Modifier.semantics {
+                                contentDescription = "Delete book"
+                            },
                             onClick = { onDeleteClick(book) },
                             colors = ButtonDefaults.buttonColors(containerColor = colors.primary)
                         ) {

@@ -32,6 +32,7 @@ class ProfileViewModel : ViewModel() {
 
     fun logout() {
         _uiState.value = ProfileUiState.NotAuthenticated
+        UserService.logoutUser()
     }
 }
 

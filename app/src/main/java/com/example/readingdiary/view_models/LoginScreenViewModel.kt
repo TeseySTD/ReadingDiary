@@ -37,9 +37,20 @@ class LoginScreenViewModel : ViewModel() {
     fun login() {
         val currentState = _loginState.value ?: return
         if (!currentState.isFormValid) {
+            viewModelScope.launch {
+                _uiEvent.emit(LoginUiEvent.ShowError("Data input is invalid!"))
+            }
             return
         }
-        UserService.loginUser(User(currentState.login, currentState.password))
+        try {
+            UserService.loginUser(User(currentState.login, currentState.password))
+        }
+        catch (e:Exception){
+            viewModelScope.launch {
+                _uiEvent.emit(LoginUiEvent.ShowError(e.message.toString()))
+            }
+            return
+        }
 
         Log.d("LoginScreenViewModel", "Login: ${currentState.login}, Password: ${currentState.password}")
 

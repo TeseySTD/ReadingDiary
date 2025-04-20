@@ -47,9 +47,13 @@ android {
 
 dependencies {
     implementation(libs.androidx.adaptive.android)
+    implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.ui.test.android)
+    implementation(libs.androidx.ui.test.junit4.android)
     val activity_version = "1.10.1"
     val nav_version = "2.8.9"
     val material_version = "1.7.8"
+    val jUnitVersion = "4"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -63,7 +67,11 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation (libs.androidx.espresso.core.v350)
+    androidTestImplementation (libs.androidx.ui.test.junit4)
+    implementation (libs.mockito.inline ) // includes "core"
+    testImplementation (libs.mockito.junit.jupiter)
+    testImplementation ("junit:junit:$jUnitVersion")
 
 
     implementation ("androidx.activity:activity-compose:$activity_version")

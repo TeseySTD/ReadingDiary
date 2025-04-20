@@ -5,12 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.readingdiary.models.Book
 import com.example.readingdiary.models.Note
+import com.example.readingdiary.repo.BookRepository.Companion
 
 class NoteRepository private constructor() {
 
     private var notes = arrayOf<Note>()
     private val notesLiveData = MutableLiveData<List<Note>>(notes.toList())
 
+    init {
+        val exampleNote = Note("Example", "Example")
+        notes = notes.plus(exampleNote)
+        notesLiveData.value = notes.toList()
+    }
 
     fun addNote(note: Note) {
         notes = notes.plus(note)
@@ -37,6 +43,10 @@ class NoteRepository private constructor() {
                 instance = NoteRepository()
             }
             return instance!!
+        }
+
+        fun reset() {
+            instance = null
         }
     }
 }

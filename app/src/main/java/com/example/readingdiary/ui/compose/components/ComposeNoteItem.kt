@@ -7,6 +7,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,7 +26,10 @@ fun ComposeNoteItem(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(8.dp)
+                .semantics {
+                    contentDescription = "Note item"
+                },
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
             colors = CardDefaults.cardColors(containerColor = colors.surfaceContainer)
@@ -67,6 +72,8 @@ fun ComposeNoteItem(
                 }
 
                 Button(
+                    modifier = Modifier
+                        .semantics { contentDescription = "Delete note" },
                     onClick = { onDeleteClick(note) },
                     colors = ButtonDefaults.buttonColors(containerColor = colors.primary),
                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),

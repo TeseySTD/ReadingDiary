@@ -19,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.AppTheme
@@ -35,7 +37,8 @@ fun ComposePlanItem(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(8.dp)
+                .semantics { contentDescription = "Plan item" },
             shape = RoundedCornerShape(12.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
             colors = CardDefaults.cardColors(
@@ -96,6 +99,7 @@ fun ComposePlanItem(
                     Box(
                         modifier = Modifier
                             .padding(bottom = 8.dp)
+                            .semantics { contentDescription = "Plan progress" }
                     ) {
                         Text(
                             text = "Reading time: ${plan.calculateReadingTime}",
@@ -106,6 +110,7 @@ fun ComposePlanItem(
                     }
 
                     Button(
+                        modifier = Modifier.semantics { contentDescription = "Complete" },
                         onClick = { onCompletePlan(plan) },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = colors.primary
