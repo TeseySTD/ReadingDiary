@@ -2,6 +2,7 @@ package com.example.readingdiary
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -60,6 +61,31 @@ class MainActivity : ComponentActivity() {
                 MainApp()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.println(Log.INFO,"OnStart","Main activity started")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.println(Log.INFO,"OnStop","Main activity stopped")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.println(Log.INFO,"OnDestroy","Main activity destroyed")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.println(Log.INFO,"OnPause","Main activity paused")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.println(Log.INFO,"OnResume","Main activity resumed")
     }
 }
 
