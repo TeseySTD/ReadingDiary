@@ -35,6 +35,7 @@ fun BottomNavBar(
 ) {
     val items = listOf(
         Routes.Home,
+        Routes.Settings,
         Routes.Books,
         Routes.Notes,
         Routes.Plans,

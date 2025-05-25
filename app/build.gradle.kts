@@ -74,6 +74,8 @@ dependencies {
     testImplementation ("junit:junit:$jUnitVersion")
 
 
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     implementation ("androidx.activity:activity-compose:$activity_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.compose.material:material:$material_version")

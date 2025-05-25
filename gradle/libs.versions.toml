@@ -20,6 +20,7 @@ adaptiveAndroid = "1.1.0"
 junitKtx = "1.2.1"
 uiTestAndroid = "1.7.8"
 uiTestJunit4Android = "1.7.8"
+roomCommonJvm = "2.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +44,7 @@ androidx-ui-test-android = { group = "androidx.compose.ui", name = "ui-test-andr
 androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoVersion" }
 mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockitoVersion" }
+androidx-room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

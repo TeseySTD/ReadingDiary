@@ -16,13 +16,10 @@
       <SelectionState runConfigName="LoginScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ProfileContentTest">
+      <SelectionState runConfigName="HomeScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testLogoutButtonCallsCallback()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="testProfileContentDisplaysAllElements()">
+      <SelectionState runConfigName="BooksScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

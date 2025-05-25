@@ -51,6 +51,7 @@ import com.example.readingdiary.ui.compose.screens.LoginScreen
 import com.example.readingdiary.ui.compose.screens.NotesScreen
 import com.example.readingdiary.ui.compose.screens.PlansScreen
 import com.example.readingdiary.ui.compose.screens.RegistrationScreen
+import com.example.readingdiary.ui.compose.screens.SettingsScreen
 import com.example.readingdiary.ui.screens.ProfileScreen
 
 class MainActivity : ComponentActivity() {
@@ -227,6 +228,7 @@ fun AppNavHost(
 ) {
     NavHost(navController = navController, startDestination = Routes.Home.route) {
         composable(Routes.Home.route) { HomeScreen() }
+        composable(Routes.Settings.route) { SettingsScreen(onBack = { navController.popBackStack() })}
         composable(Routes.Books.route) { BooksScreen() }
         composable(Routes.Notes.route) { NotesScreen() }
         composable(Routes.Plans.route) { PlansScreen() }
